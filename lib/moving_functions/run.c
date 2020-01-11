@@ -7,7 +7,7 @@
 
 #include "../../include/list.h"
 
-void move_background(game_object__t *obj)
+void move_background(game_object_t *obj)
 {
     obj->time = sfClock_getElapsedTime(obj->clock);
     obj->seconds = obj->time.microseconds / 1000000.0;
@@ -40,11 +40,11 @@ void actualise_obstacle(list_t *list, sfRenderWindow *window)
     }
 }
 
-void draw_obstacle(game_object__t *obj)
+void draw_obstacle(game_object_t *obj)
 {
     obj->time = sfClock_getElapsedTime(obj->clock);
     obj->seconds = obj->time.microseconds / 1000000.0;
-    if (obj->seconds > 0.05) {
+    if (obj->seconds > 0.01) {
         obj->position_window.x += obj->offset;
         sfClock_restart(obj->clock);
     }

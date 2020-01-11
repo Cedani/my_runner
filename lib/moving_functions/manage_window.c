@@ -21,41 +21,32 @@ sfRenderWindow *create_window(void)
 
 void my_runner(char *filepath)
 {
-    sfRenderWindow *window = create_window();
-    sfEvent event;
-    list_t *list = init_list();
-    char **map = loading_map(filepath);
-    list_t *obst = create_list_obstacle(map);
+    res_t *res = initialize_parameter(filepath);
 
-    while (sfRenderWindow_isOpen(window)) {
-        sfRenderWindow_clear(window, sfBlack);
-        if (sfRenderWindow_pollEvent(window, &event)) {
-            analyse_window_envent(window, event, list);
+    while (sfRenderWindow_isOpen(res->window)) {
+        sfRenderWindow_clear(res->window, sfWhite);
+        if (sfRenderWindow_pollEvent(res->window, &res->event)) {
+            analyse_window_envent(res, res->list, res->obst);
         }
-        if (collision_x(list, obst) == 0)
-            exit(1);
-        else if (collision_y(list, obst) ==  0)
-            exit(1);
-        else
-            actualise_window(window, list, obst);
+        event_scene_game(res);
     }
-    free_all(&list);
-    free_all(&obst);
-    sfRenderWindow_destroy(window);
+    destroy_res(res);
 }
 
-void analyse_window_envent(sfRenderWindow *window, sfEvent event, list_t *list)
+void analyse_window_envent(res_t *res, list_t *list, list_t *obst)
 {
     while (list->object->type != PLAYER)
         list = list->next;
-    if (event.type == sfEvtClosed)
-        sfRenderWindow_close(window);
-    if (event.type == sfEvtKeyPressed) {
-        if (event.key.code == sfKeySpace) {
+    if (res->event.type == sfEvtMouseButtonPressed)
+        analyse_event_mouse(res, res->event.mouseButton);
+    if (res->event.type == sfEvtClosed)
+        sfRenderWindow_close(res->window);
+    if (res->event.type == sfEvtKeyPressed) {
+        if (res->event.key.code == sfKeySpace)
             list->object->velocity.y = -25;
-        }
+        if (res->event.key.code == sfKeyEscape)
+            sfRenderWindow_close(res->window);
     }
-
 }
 
 void move_rect(sfIntRect *rect, int offset, int max)
@@ -63,29 +54,33 @@ void move_rect(sfIntRect *rect, int offset, int max)
     rect->left = (rect->left + offset) % max;
 }
 
-void actualise_window(sfRenderWindow *window, list_t *list, list_t *obst)
+void actualise_window(res_t *res, list_t *list, list_t *obst)
 {
     while (list->object->type != PLAYER) {
         list = list->next;
     }
     list->object->time = sfClock_getElapsedTime(list->object->clock);
     list->object->seconds = list->object->time.microseconds / 1000000.0;
-    move_plan(list, window);
+    move_plan(list, res->window);
     if (list->object->seconds > 0.1) {
         list->object->position_window.y += list->object->velocity.y;
         if (list->object->position_window.y <= 450) {
             list->object->velocity.y += 5;
+            if (list->object->position_window.y <= 380)
+                list->object->position_window.y = 380;
         } else {
             list->object->position_window.y = 450;
             list->object->velocity.y = 0;
         }
         move_rect(&list->object->rect, list->object->offset,
                     list->object->max_value);
+        res->score_int += 1;
         sfClock_restart(list->object->clock);
     }
-    actualise_obstacle(obst, window);
+    actualise_obstacle(obst, res->window);
     sfSprite_setTextureRect(list->object->Sprite, list->object->rect);
     sfSprite_setPosition(list->object->Sprite, list->object->position_window);
-    sfRenderWindow_drawSprite(window, list->object->Sprite, NULL);
-    sfRenderWindow_display(window);
+    sfRenderWindow_drawSprite(res->window, list->object->Sprite, NULL);
+    display_score(res);
+    sfRenderWindow_display(res->window);
 }

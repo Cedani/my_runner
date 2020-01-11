@@ -9,8 +9,9 @@
 
 static const char *filepath[NB_ELEMENT] = {
     "image/sprite/player/run.png",
-    "image/background/BACK_test.png",
-    "image/background/FRONT_test.png",
+    "image/background/BACK.png",
+    "image/background/MIDDLE.png",
+    "image/background/FRONT.png",
 };
 
 static const char *path_jump = "image/sprite/player/jump.png";
@@ -18,10 +19,11 @@ static const char *path_jump = "image/sprite/player/jump.png";
 static const sfVector2f ini_pos[NB_ELEMENT] = {
     {0, 450},
     {0, 0},
+    {0, 0},
     {0, 0}
 };
 
-void init_object(game_object__t *obj, ENUM plan, TYPE type)
+void init_object(game_object_t *obj, ENUM plan, TYPE type)
 {
     static int index = 0;
     if (type == PLAYER)
@@ -32,12 +34,11 @@ void init_object(game_object__t *obj, ENUM plan, TYPE type)
     index += 1;
 }
 
-void init_player(game_object__t *pla, char const *filepath, sfVector2f pos)
+void init_player(game_object_t *pla, char const *filepath, sfVector2f pos)
 {
     pla->offset = 83;
     init_rect_player(&pla->rect);
     pla->Texture = sfTexture_createFromFile(filepath, NULL);
-    pla->Texture_jump = sfTexture_createFromFile(path_jump, NULL);
     pla->Sprite = sfSprite_create();
     sfSprite_setTexture(pla->Sprite, pla->Texture, sfTrue);
     pla->max_value = 498;
@@ -48,15 +49,17 @@ void init_player(game_object__t *pla, char const *filepath, sfVector2f pos)
     pla->velocity.y = 0;
 }
 
-void init_enemy(game_object__t *ene, char const *filepath, sfVector2f pos)
+void init_enemy(game_object_t *ene, char const *filepath, sfVector2f pos)
 {
 }
 
-void init_background(game_object__t *b, char const *path, sfVector2f p, ENUM pl)
+void init_background(game_object_t *b, char const *path, sfVector2f p, ENUM pl)
 {
     b->clock = sfClock_create();
     if (pl == FRONT)
         b->offset = -8;
+    else if (pl == MIDDLE)
+        b->offset = -4;
     else
         b->offset = -2;
     b->plan = pl;

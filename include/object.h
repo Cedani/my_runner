@@ -19,6 +19,7 @@
 
 typedef enum {
     FRONT,
+    MIDDLE,
     BACK,
 }ENUM;
 
@@ -31,13 +32,9 @@ typedef enum {
 
 typedef struct game_object_s {
     sfIntRect rect;
-    sfIntRect rect_jump;
     sfSprite *Sprite;
     sfTexture *Texture;
-    sfTexture *Texture_jump;
     int offset;
-    int position_list;
-    int positon_type;
     int max_value;
     sfVector2f position_window;
     sfVector2f velocity;
@@ -47,7 +44,7 @@ typedef struct game_object_s {
     ENUM plan;
     TYPE type;
     float init_pos;
-}game_object__t;
+}game_object_t;
 
 typedef struct obstacle_s {
     sfSprite *Sprite;
@@ -59,10 +56,10 @@ typedef struct obstacle_s {
 
 void init_rect_player(sfIntRect *);
 void init_rect_jump(sfIntRect *);
-void init_object(game_object__t *, ENUM, TYPE);
-void init_player(game_object__t *, char const *, sfVector2f);
-void init_enemy(game_object__t *, char const *, sfVector2f);
-void init_background(game_object__t *, char const *, sfVector2f, ENUM);
+void init_object(game_object_t *, ENUM, TYPE);
+void init_player(game_object_t *, char const *, sfVector2f);
+void init_enemy(game_object_t *, char const *, sfVector2f);
+void init_background(game_object_t *, char const *, sfVector2f, ENUM);
 void move_rect(sfIntRect *, int, int);
 void my_runner(char *filepath);
 #endif /* !OBJECT */

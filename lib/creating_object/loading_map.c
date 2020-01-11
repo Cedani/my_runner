@@ -8,7 +8,7 @@
 #include "../../include/load_map.h"
 #include "../../include/list.h"
 
-static const int offset = -8;
+static const int offset = -1;
 static const char *img = "image/background/rock.png";
 
 void count_nbline(char *str, int *nb_line)
@@ -41,11 +41,11 @@ list_t *create_list_obstacle(char **map)
     float pos_x = 0;
     float pos_y = 0;
     list_t *list_obst = NULL;
-    game_object__t *obst = NULL;
+    game_object_t *obst = NULL;
 
-    for (int i = 0; map[i] != NULL; i += 1) {
+    for (int i = 0; map[i]; i += 1) {
         pos_x = 0;
-        for (int j = 0; map[i][j] != '\0'; j += 1) {
+        for (int j = 0; map[i][j]; j += 1) {
             if (map[i][j] == '0') {
                 obst = init_obstacle(pos_x, pos_y);
                 obst->type = OBSTACLE;
@@ -59,12 +59,14 @@ list_t *create_list_obstacle(char **map)
     return (list_obst);
 }
 
-game_object__t *init_obstacle(float pos_x, float pos_y)
+game_object_t *init_obstacle(float pos_x, float pos_y)
 {
-    game_object__t *obst = malloc(sizeof(*obst));
+    game_object_t *obst = malloc(sizeof(*obst));
 
     obst->position_window.x = pos_x;
     obst->position_window.y = pos_y;
+    obst->velocity.x = 50;
+    obst->velocity.y = 50;
     obst->offset = offset;
     obst->clock = sfClock_create();
     obst->Texture = sfTexture_createFromFile(img, NULL);
