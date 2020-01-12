@@ -44,6 +44,7 @@ void init_player(game_object_t *pla, char const *filepath, sfVector2f pos)
     pla->max_value = 498;
     pla->position_window = pos;
     pla->plan = FRONT;
+    pla->jump = 0;
     pla->clock = sfClock_create();
     pla->velocity.x = 0;
     pla->velocity.y = 0;

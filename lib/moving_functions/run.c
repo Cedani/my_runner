@@ -44,9 +44,11 @@ void draw_obstacle(game_object_t *obj)
 {
     obj->time = sfClock_getElapsedTime(obj->clock);
     obj->seconds = obj->time.microseconds / 1000000.0;
-    if (obj->seconds > 0.01) {
+    if (obj->seconds > obj->time_offset) {
         obj->position_window.x += obj->offset;
         sfClock_restart(obj->clock);
     }
+    if (obj->position_window.x <= -50)
+        obj->position_window.x = 800;
     sfSprite_setPosition(obj->Sprite, obj->position_window);
 }

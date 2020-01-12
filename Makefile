@@ -8,7 +8,9 @@
 LIBMY 	=		./lib/my/linked_list_library.c	\
 				./lib/my/my_str_to_word_array.c	\
 				./lib/my/my_strlen.c			\
-				./lib/my/my_revstr.c
+				./lib/my/my_revstr.c			\
+				./lib/my/my_getnbr.c			\
+				./lib/my/help.c
 
 CRE_OBJ = 		./lib/creating_object/create_object.c	\
 				./lib/creating_object/init_rect_sprite.c 	\
@@ -20,7 +22,8 @@ MOV_FUN =		./lib/moving_functions/manage_window.c 	\
 				./lib/moving_functions/run.c			\
 				./lib/moving_functions/collision.c		\
 				./lib/moving_functions/score.c			\
-				./lib/moving_functions/ending.c
+				./lib/moving_functions/ending.c			\
+				./lib/moving_functions/jump.c
 
 MAIN 	=		main.c
 

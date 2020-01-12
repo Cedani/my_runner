@@ -1,0 +1,4 @@
+The goal of this game is to avoid block by pressing space key in the right moment in order to jump.
+To win you must beat the previous highscore, which is 0 by default.
+You can reinitialize it by editing the value in the file highscore.
+Good luck

@@ -18,6 +18,7 @@ res_t *initialize_parameter(char *filepath)
     res->obj = create_button();
     res->clock = sfClock_create();
     create_score(res);
+    sfRenderWindow_setFramerateLimit(res->window, 80);
     return (res);
 }
 
@@ -28,10 +29,10 @@ int event_scene_game(res_t *res)
     else if (res->scene == 1)
         actualise_window(res, res->list, res->obst);
     if (collision_y(res->list, res->obst) == 1 && res->scene != 2)
-        res->scene = 2;
+        highscore(res);
     if (res->scene == 2)
         display_losing(res);
-    if (res->score_int == 100)
+    if (res->score_int == 400)
         res->scene = 3;
     if (res->scene == 3)
         display_winning(res);

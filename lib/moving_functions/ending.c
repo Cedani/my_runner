@@ -53,3 +53,29 @@ void display_winning(res_t *res)
     sfRenderWindow_drawText(res->window, win_text, NULL);
     sfRenderWindow_display(res->window);
 }
+
+void write_high(char *score)
+{
+    int fd = open("highscore/highscore", O_WRONLY);
+
+    write(fd, score, my_strlen(score));
+    close(fd);
+}
+
+void highscore(res_t *res)
+{
+    int fd = open("highscore/highscore", O_RDONLY);
+    char buffer[11];
+    char *score_ch = my_itoa(res->score_int);
+    int score = 0;
+
+    read(fd, buffer, 11);
+    close(fd);
+    score = my_getnbr(buffer);
+    if (score <= res->score_int && res->scene == 1) {
+        res->scene = 3;
+        write_high(score_ch);
+    }
+    else if (res->scene == 1)
+        res->scene = 2;
+}

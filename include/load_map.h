@@ -15,5 +15,5 @@
 
 char **my_str_to_word_array(char *, int);
 char *my_revstr(char *str);
-char *my_itoa(int i);
+
 #endif /* !MAP */

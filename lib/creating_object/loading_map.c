@@ -65,6 +65,7 @@ game_object_t *init_obstacle(float pos_x, float pos_y)
 
     obst->position_window.x = pos_x;
     obst->position_window.y = pos_y;
+    obst->time_offset = 0.01;
     obst->velocity.x = 50;
     obst->velocity.y = 50;
     obst->offset = offset;

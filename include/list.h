@@ -64,4 +64,12 @@ sfRenderWindow *create_window(void);
 void destroy_res(res_t *res);
 void display_losing(res_t *res);
 void display_winning(res_t *res);
+void actualize_displaying(res_t *res, list_t *list, list_t *obst);
+void jump_moving(res_t *res, list_t *list, list_t *obst);
+int attrib_sign(char const *str, int i);
+int attrib_num(char const *str, int i);
+int my_getnbr(char const *str);
+char *my_itoa(int i);
+void highscore(res_t *res);
+int parsing(char **argv);
 #endif /* !LIST */

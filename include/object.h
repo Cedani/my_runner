@@ -16,6 +16,9 @@
 #include <SFML/Graphics/Rect.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 typedef enum {
     FRONT,
@@ -44,6 +47,8 @@ typedef struct game_object_s {
     ENUM plan;
     TYPE type;
     float init_pos;
+    float time_offset;
+    int jump;
 }game_object_t;
 
 typedef struct obstacle_s {
